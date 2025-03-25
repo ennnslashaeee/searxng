@@ -1,7 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
-"""Utility functions for the engines
-
-"""
+"""Utility functions for the engines"""
 
 from __future__ import annotations
 
@@ -18,6 +16,7 @@ from random import choice
 from html.parser import HTMLParser
 from html import escape
 from urllib.parse import urljoin, urlparse, parse_qs, urlencode
+from datetime import timedelta
 from markdown_it import MarkdownIt
 
 from lxml import html
@@ -633,7 +632,7 @@ def _get_fasttext_model() -> "fasttext.FastText._FastText":  # type: ignore
 def get_embeded_stream_url(url):
     """
     Converts a standard video URL into its embed format. Supported services include Youtube,
-    Facebook, Instagram, TikTok, and Dailymotion.
+    Facebook, Instagram, TikTok, Dailymotion, and Bilibili.
     """
     parsed_url = urlparse(url)
     iframe_src = None
@@ -672,6 +671,22 @@ def get_embeded_stream_url(url):
         if len(path_parts) == 3:
             video_id = path_parts[2]
             iframe_src = 'https://www.dailymotion.com/embed/video/' + video_id
+
+    # Bilibili
+    elif parsed_url.netloc in ['www.bilibili.com', 'bilibili.com'] and parsed_url.path.startswith('/video/'):
+        path_parts = parsed_url.path.split('/')
+
+        video_id = path_parts[2]
+        param_key = None
+        if video_id.startswith('av'):
+            video_id = video_id[2:]
+            param_key = 'aid'
+        elif video_id.startswith('BV'):
+            param_key = 'bvid'
+
+        iframe_src = (
+            f'https://player.bilibili.com/player.html?{param_key}={video_id}&high_quality=1&autoplay=false&danmaku=0'
+        )
 
     return iframe_src
 
@@ -815,3 +830,25 @@ def js_variable_to_python(js_variable):
     s = s.replace(chr(1), ':')
     # load the JSON and return the result
     return json.loads(s)
+
+
+def parse_duration_string(duration_str: str) -> timedelta | None:
+    """Parse a time string in format MM:SS or HH:MM:SS and convert it to a `timedelta` object.
+
+    Returns None if the provided string doesn't match any of the formats.
+    """
+    duration_str = duration_str.strip()
+
+    if not duration_str:
+        return None
+
+    try:
+        # prepending ["00"] here inits hours to 0 if they are not provided
+        time_parts = (["00"] + duration_str.split(":"))[:3]
+        hours, minutes, seconds = map(int, time_parts)
+        return timedelta(hours=hours, minutes=minutes, seconds=seconds)
+
+    except (ValueError, TypeError):
+        pass
+
+    return None

@@ -5,7 +5,7 @@ using to try out implementing reverse image search to it using a foss api domain
 
 ----
 
-.. figure:: https://raw.githubusercontent.com/searxng/searxng/master/src/brand/searxng.svg
+.. figure:: https://raw.githubusercontent.com/searxng/searxng/master/client/simple/src/brand/searxng.svg
    :target: https://docs.searxng.org/
    :alt: SearXNG
    :width: 100%
@@ -37,7 +37,7 @@ A user_, admin_ and developer_ handbook is available on the homepage_.
 .. _homepage: https://docs.searxng.org/
 .. _metasearch engine: https://en.wikipedia.org/wiki/Metasearch_engine
 
-.. |SearXNG logo| image:: https://raw.githubusercontent.com/searxng/searxng/master/src/brand/searxng-wordmark.svg
+.. |SearXNG logo| image:: https://raw.githubusercontent.com/searxng/searxng/master/client/simple/src/brand/searxng-wordmark.svg
    :target: https://docs.searxng.org/
    :width: 5%
 

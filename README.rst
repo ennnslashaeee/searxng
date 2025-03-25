@@ -1,5 +1,4 @@
-THIS IS A FORK BY ME AND I AM USING IT AS A "RESTORE" POINT FOR MY OWN INSTANCE FOUND AT https://drinker.beer AND AS A WAY TO LOOK AT FILES WITHOUGHT NEEDING TO DO IT IN THE ACTUAL PROD 
-
+using to try out implementing reverse image search to it using a foss api domain is drinker.beer
 
 
 .. SPDX-License-Identifier: AGPL-3.0-or-later
